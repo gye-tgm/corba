@@ -1,0 +1,77 @@
+<project name="client" >
+    <property name="src.dir"        value="src"/>
+    <property name="build.dir"      value="build"/>
+    <property name="classes.dir"    value="${build.dir}/classes"/>
+
+    <property name="idl.dir"        value="../common" />
+    <property name="gen.dir"        value="${build.dir}/generated" />
+    <property name="resources.dir"  value="resources" />
+    <property name="jacorb.dir"     value="/home/gary/opt/jacorb-3.2" />
+
+    <property name="tmp.dir"        value="${build.dir}/tmp" />
+
+    <!-- this property can be overridden on the command line to pass in additional args  -->
+    <!-- to the started java processes e.g. -Djaco.args=-Djacorb.log.default.verbosity=4 -->
+    <property name="jaco.args"      value="-Dignored=value" />
+
+    <path id="jacorb.classpath" >
+        <pathelement location="${jacorb.dir}/classes" />
+        <fileset dir="${jacorb.dir}/lib">
+            <include name="*.jar" />
+        </fileset>
+    </path>
+
+	<path id="project.classpath">
+		<pathelement location="${classes.dir}" />
+	</path>
+
+    <path id="demo.classpath" >
+        <pathelement location="${classes.dir}" />
+        <pathelement location="${resources.dir}" />
+        <pathelement location="../common/build/classes" />
+    </path>
+
+    <presetdef name="jaco">
+        <java fork="true" >
+            <jvmarg value="-Xbootclasspath/p:${jacorb.dir}/classes" />
+            <jvmarg value="-Djava.endorsed.dirs=${jacorb.dir}/lib" />
+            <jvmarg value="-Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB" />
+            <jvmarg value="-Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton" />
+            <jvmarg value="${jaco.args}" />
+
+            <classpath refid="project.classpath" />
+       		<!-- corbaloc::ip-address:port/NameService -->
+<!--			<arg value="-ORBInitRef NameService=corbaloc::localhost:2809/NameService" /> -->
+		</java>
+    </presetdef>
+
+    <target name="idl.taskdef">
+        <taskdef name="jacidl" classname="org.jacorb.idl.JacIDL" classpathref="jacorb.classpath"/>
+    </target>
+
+    <target name="idl" depends="idl.taskdef">
+        <mkdir dir="${idl.dir}"/>
+        <jacidl srcdir="${idl.dir}" destdir="${gen.dir}" includes="*.idl" helpercompat="jacorb"
+    	   includepath="${jacorb.dir}/idl/omg" />
+    </target>
+
+    <target name="compile" depends="idl" >
+        <mkdir dir="${classes.dir}"/>
+
+        <javac destdir="${classes.dir}" debug="true" includeantruntime="false">
+            <src path="${gen.dir}" />
+            <src path="${src.dir}" /> 
+            <classpath refid="jacorb.classpath" />
+        </javac>
+    </target>
+
+    <target name="run-client" depends="compile">
+        <sequential>
+            <jaco classname="schrackye.Client" />
+        </sequential>
+    </target>
+
+    <target name="clean">
+         <delete dir="${build.dir}"/>
+    </target>
+</project>

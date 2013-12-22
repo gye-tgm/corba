@@ -1,0 +1,11 @@
+Build the file by using `make`
+
+To specify the naming service, use `-ORBInitRef NameService=corbaname::HOST_NAME`. If another port is needed then you also have to specify
+it by passing `-ORBInitPort 1234`.
+
+
+Example
+`
+$ make
+$ ./server -ORBInitRef NameService=corbaname::localhost
+`

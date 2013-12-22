@@ -1,6 +1,8 @@
 Corba (C++ and Java)
 =====
 
+The server and the client are implemented in C++ and Java respectively. 
+
 Installation
 -------------
 

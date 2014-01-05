@@ -41,7 +41,8 @@
 
             <classpath refid="project.classpath" />
        		<!-- corbaloc::ip-address:port/NameService -->
-<!--			<arg value="-ORBInitRef NameService=corbaloc::localhost:2809/NameService" /> -->
+			<!-- <arg value="-ORBInitRef NameService=corbaloc::localhost:2809/NameService" /> --> 
+			<arg value="-ORBInitialPort 2809"/>
 		</java>
     </presetdef>
 

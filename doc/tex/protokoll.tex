@@ -1,0 +1,95 @@
+\documentclass[11pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{listings}             % Include the listings-package for c++,java,idl
+
+% \usepackage[ngerman]{babel}
+
+\title{Corba Übung}
+\author{Nikolaus Schrack, Gary Ye (4BHIT)}
+\date{\today{}, Wien}
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+\section{Aufgabenstellung}
+Verwenden Sie das Paket ORBacus oder omniORB bzw. JacORB um Java und C++ ORB-Implementationen zum Laufen zu bringen.
+
+Passen Sie eines der Demoprogramme so an, dass Sie einen Namingservice verwenden, welches ein Objekt anbietet, das von jeweils einer anderen Sprache (Java/C++) verteilt angesprochen wird. Beachten Sie dabei, dass eine IDL-Implementierung vorhanden ist um die unterschiedlichen Sprachen abgleichen zu können.
+
+Vorschlag: Verwenden Sie für die Implementierungsumgebung eine Linux-Distribution, da eine optionale Kompilierung einfacher zu konfigurieren ist.
+
+\subsection{Resources}
+
+\begin{itemize}
+\item http://omniorb.sourceforge.net/
+\item http://www.microfocus.com/products/corba/orbacus/
+\item http://www.jacorb.org/
+\item http://omniorb.sourceforge.net/omni41/omniORB.pdf
+\item http://www.ing.iac.es/~docs/external/corba/book.pdf
+\end{itemize}
+
+\section{Aufwandsschätzung}
+\subsection{Geschätzter Aufwand}
+10 Stunden
+
+Da wenig Erfahrung in dem Gebiet besteht, wurde eine sehr hohe Aufwandszeit geschätzt. Die Zeit wurde hauptsächlich mit dem Lesen der beiligenden Dokumentationen verbracht, damit das Implementieren ohne Zweifeln ausgeführt werden konnte.
+\subsection{Tatsächlicher Aufwand}
+\begin{center}
+  \begin{tabular}{| l | l | l |}
+    \hline
+    Task & Schrack & Ye \\ \hline
+
+    Dokumentierung des C++ Servers   & 0h & \\ \hline
+    Dokumentierung des Java Clients  &  & 2h\\ \hline
+    Implementierung des Java Clients & & 2h \\ \hline
+  \end{tabular}
+\end{center}
+
+\section{Arbeitsaufteilung}
+Da beide Teammitglieder Corba-Neulinge sind, wurde aus Erfahrung beschlossen, dass das Lesen der Dokumentationen der beste Start in eine neuen Übung bzw. Aufgabe ist. Nachher sind die neue Technologien und der Quellcode, der beiliegenden Beispiele, einigermaßen klarer geworden. Im omniORB-Verzeichnis gibt es ein ``echo-example'', das eine in C++ implementierte Version von Server und Client, die den NamingService verwenden, enthält. Danach wurde ausgemacht, dass Gary Ye die Java Client Version schreibt und seine Vorgänge niederschreibt, und dass Nikolaus Schrack den größten Teil des C++ Source Codes dokumentiert. 
+
+\section{Neue Technologien}
+
+\subsection{IDL File}
+
+Man kann das IDL File zu Stubsourcefiles, von der gewünschten Programmiersprache, generieren. Der folgende Code ist vom IDL File(echo.idl), angepasst an dem dem Interface namens ``Echo''.
+
+
+\lstset{language=IDL}  
+\begin{lstlisting}[frame=single]
+#ifndef __ECHO_IDL__
+#define __ECHO_IDL__
+module schrackye {
+        interface Echo {
+                string echoString(in string mesg);
+        };
+};
+#endif // __ECHO_IDL__         
+\end{lstlisting}
+Um den Java Stub Code zu generieren führt man den folgenden Befehl aus:
+
+\begin{lstlisting}
+\$ idlj echo.idl
+\end{lstlisting}
+
+Oder für C++
+
+\begin{lstlisting}
+\$ omniidl echo.idl
+\end{lstlisting}
+
+\subsection{C++ Server}
+
+\subsection{Java Client}
+
+
+
+\section{Aufgetretene Probleme}
+
+\section{Testbericht}
+
+\end{document}

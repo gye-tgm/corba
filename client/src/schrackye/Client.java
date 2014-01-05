@@ -23,7 +23,7 @@ public class Client {
 			name[1] = new NameComponent(id, kind);
 		
 			echo = EchoHelper.narrow(rootContext.resolve(name));
-			System.out.println("Server says : " + echo.echoString("Omgosh"));
+			System.out.println("Server says : " + echo.echoString("Juhu funktioniert!"));
 		} catch(InvalidName e){
 			System.err.println("InvalidNameException occured : " + e.getMessage());
 		} catch(Exception e){

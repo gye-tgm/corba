@@ -1,0 +1,124 @@
+\documentclass[11pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{listings}             % Include the listings-package for c++,java,idl
+
+% \usepackage[ngerman]{babel}
+
+\title{Corba Übung}
+\author{Nikolaus Schrack, Gary Ye (4BHIT)}
+\date{\today{}, Wien}
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+\section{Aufgabenstellung}
+Verwenden Sie das Paket ORBacus oder omniORB bzw. JacORB um Java und C++ ORB-Implementationen zum Laufen zu bringen.
+
+Passen Sie eines der Demoprogramme so an, dass Sie einen Namingservice verwenden, welches ein Objekt anbietet, das von jeweils einer anderen Sprache (Java/C++) verteilt angesprochen wird. Beachten Sie dabei, dass eine IDL-Implementierung vorhanden ist um die unterschiedlichen Sprachen abgleichen zu können.
+
+Vorschlag: Verwenden Sie für die Implementierungsumgebung eine Linux-Distribution, da eine optionale Kompilierung einfacher zu konfigurieren ist.
+
+\subsection{Resources}
+
+\begin{itemize}
+\item http://omniorb.sourceforge.net/
+\item http://www.microfocus.com/products/corba/orbacus/
+\item http://www.jacorb.org/
+\item http://omniorb.sourceforge.net/omni41/omniORB.pdf
+\item http://www.ing.iac.es/~docs/external/corba/book.pdf
+\end{itemize}
+
+\section{Aufwandsschätzung}
+\subsection{Geschätzter Aufwand}
+10 Stunden
+
+Da wenig Erfahrung in dem Gebiet besteht, wurde eine sehr hohe Aufwandszeit geschätzt. Die Zeit wurde hauptsächlich mit dem Lesen der beiligenden Dokumentationen verbracht, damit das Implementieren ohne Zweifeln ausgeführt werden konnte.
+\subsection{Tatsächlicher Aufwand}
+\begin{center}
+  \begin{tabular}{| l | l | l |}
+    \hline
+    Task & Schrack & Ye \\ \hline
+
+    Dokumentierung des C++ Servers   & 0h & \\ \hline
+    Dokumentierung des Java Clients  & & 2h \\ \hline
+    Implementierung des Java Clients & & 2h \\ \hline
+  \end{tabular}
+\end{center}
+
+\section{Designplanung}
+Da beide Teammitglieder Corba-Neulinge sind, wurde aus Erfahrung beschlossen, dass das Lesen der Dokumentationen der beste Start in eine neuen Übung bzw. Aufgabe ist. Nachher sind die neue Technologien und der Quellcode, der beiliegenden Beispiele, einigermaßen klarer geworden. Im omniORB-Verzeichnis gibt es ein ``echo-example'', das eine in C++ implementierte Version von Server und Client, die den NamingService verwenden, enthält. Danach wurde ausgemacht, dass Gary Ye die Java Client Version schreibt und seine Vorgänge niederschreibt, und dass Nikolaus Schrack den größten Teil des C++ Source Codes dokumentiert. 
+
+\section{Installation}
+\lstset{language=IDL}
+\subsection{OmniORB}
+
+Die folgende Packages werden für die Installation von OmniORB benötigt: omniorb omniorb-doc omniorb-idl omniorb-nameserver python2.7-dev. Diese sollten entsprechend mit apt-get installiert werden und danach ladet man die Installationsdateien von der offiziellen OmniORB Seite [1] runter. Für die Ausführung wurde omniORB-4.1.7 benutzt. Anschließend wechselt man in den Omniorb Directory und führt die folgende Befehle, die auch im Readme erwähnt sind, aus.
+
+\begin{lstlisting}
+mkdir build
+cd build
+../configure
+make
+make install
+\end{lstlisting}
+
+Man kann auch den Installationsort ändern, indem man einen Wert für --prefix angibt.
+
+\begin{lstlisting}
+../configure --prefix=/home/gary/omni_inst
+\end{lstlisting}
+
+\subsection{JacORB}
+
+\begin{lstlisting}
+wget http://www.jacorb.org/releases/3.2/jacorb-3.2-source.zip
+unzip jacorb-3.2-source.zip
+ant all
+\end{lstlisting}
+
+\section{Neue Technologien}
+
+\subsection{IDL File}
+
+Man kann das IDL File zu Stubsourcefiles, von der gewünschten Programmiersprache, generieren. Der folgende Code ist von das am ``Echo'' Inteface angepasste IDL File(echo.idl). Anzumerken ist, dass es einen Modul namens ``schrackye'' existiert. Module sind ähnlich wie Packages von Java oder Namespaces von C++. 
+% TODO: Beschreibung zu #ifndef und Parametern.
+
+\lstset{language=IDL}  
+\begin{lstlisting}[frame=single]
+#ifndef __ECHO_IDL__
+#define __ECHO_IDL__
+module schrackye {
+        interface Echo {
+                string echoString(in string mesg);
+        };
+};
+#endif // __ECHO_IDL__         
+\end{lstlisting}
+
+Um den Java Stub Code zu generieren führt man den folgenden Befehl aus:
+
+\lstset{language=bash}
+\begin{lstlisting}
+idlj echo.idl
+\end{lstlisting}
+Oder für C++
+\begin{lstlisting}
+omniidl echo.idl
+\end{lstlisting}
+
+\subsection{C++ Server}
+
+\subsection{Java Client}
+\lstset{language=java}
+
+\section{Aufgetretene Probleme}
+
+\section{Testbericht}
+
+\section{Quellen}
+
+\end{document}

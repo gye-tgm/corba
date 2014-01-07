@@ -31,22 +31,6 @@
     <pathelement location="../common/build/classes" />
   </path>
 
-  <presetdef name="jaco">
-    <java fork="true" >
-
-<!--      <jvmarg value="-Xbootclasspath/p:${jacorb.dir}/classes" />
-      <jvmarg value="-Djava.endorsed.dirs=${jacorb.dir}/lib" />
-      <jvmarg value="-Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB" />
-      <jvmarg value="-Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton" />
-   -->
-      <jvmarg value="${jaco.args}" />
-      <arg value="-ORBInitialPort 2809"/>
-      <classpath refid="project.classpath" />
-      <!-- corbaloc::ip-address:port/NameService -->
-      <arg value="-ORBInitRef NameService=corbaloc::localhost:2809/NameService" />
-    </java>
-  </presetdef>
-
   <target name="idl.taskdef">
     <taskdef name="jacidl" classname="org.jacorb.idl.JacIDL" classpathref="jacorb.classpath"/>
   </target>
@@ -68,12 +52,6 @@
   </target>
 
   <target name="run-client" depends="compile">
-    <sequential>
-      <jaco classname="schrackye.Client" />
-    </sequential>
-  </target>
-
-  <target name="run" depends="compile">
     <java fork="true" classname="schrackye.Client" >
       <arg value="-ORBInitialPort" />
       <arg value="2809" />

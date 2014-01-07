@@ -11,6 +11,7 @@ public class Client {
 	
 	public static void main(String[] args){
 		Echo echo;
+    System.out.println("args: "+args[0]);
 		try{
 			// get a reference to the naming service
 			org.omg.CORBA.ORB orb = org.omg.CORBA.ORB.init(args, null);

@@ -10,6 +10,7 @@
 
   <property name="tmp.dir"        value="${build.dir}/tmp" />
 
+
   <!-- this property can be overridden on the command line to pass in additional args  -->
   <!-- to the started java processes e.g. -Djaco.args=-Djacorb.log.default.verbosity=4 -->
   <property name="jaco.args"      value="-Dignored=value" />
@@ -51,10 +52,27 @@
     </javac>
   </target>
 
+  <property name="host" value="127.0.0.1"/>
+
   <target name="run-client" depends="compile">
+    <description>
+      Simply run the client by passing the `host' address. e.g.
+      ant run-client -Dhost=192.168.163.129
+
+      If you don't specify the host, then the localhost will be chosen.
+    </description>
     <java fork="true" classname="schrackye.Client" >
-      <arg value="-ORBInitialPort" />
-      <arg value="2809" />
+      
+	<!-- Only for local usage
+	  <arg value="-ORBInitialPort" />
+	  <arg value="2809" />
+	-->
+
+	<!-- Should be equivalent to an example call like this 
+	     java schrackye.Client -ORBInitRef NameService=corbaloc::192.168.163.129:2809/NameService
+	-->
+	<arg value="-ORBInitRef" />
+	<arg value="NameService=corbaloc::${host}:2809/NameService"/>
       <classpath refid="project.classpath" />
     </java>
   </target>

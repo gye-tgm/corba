@@ -44,20 +44,48 @@ Da wenig Erfahrung in dem Gebiet besteht, wurde eine sehr hohe Aufwandszeit gesc
     Task & Schrack & Ye \\ \hline
 
     Dokumentierung des C++ Servers   & 0h & \\ \hline
-    Dokumentierung des Java Clients  &  & 2h\\ \hline
+    Dokumentierung des Java Clients  & & 2h \\ \hline
     Implementierung des Java Clients & & 2h \\ \hline
   \end{tabular}
 \end{center}
 
-\section{Arbeitsaufteilung}
+\section{Designplanung}
 Da beide Teammitglieder Corba-Neulinge sind, wurde aus Erfahrung beschlossen, dass das Lesen der Dokumentationen der beste Start in eine neuen Übung bzw. Aufgabe ist. Nachher sind die neue Technologien und der Quellcode, der beiliegenden Beispiele, einigermaßen klarer geworden. Im omniORB-Verzeichnis gibt es ein ``echo-example'', das eine in C++ implementierte Version von Server und Client, die den NamingService verwenden, enthält. Danach wurde ausgemacht, dass Gary Ye die Java Client Version schreibt und seine Vorgänge niederschreibt, und dass Nikolaus Schrack den größten Teil des C++ Source Codes dokumentiert. 
+
+\section{Installation}
+\lstset{language=IDL}
+\subsection{OmniORB}
+
+Die folgende Packages werden für die Installation von OmniORB benötigt: omniorb omniorb-doc omniorb-idl omniorb-nameserver python2.7-dev. Diese sollten entsprechend mit apt-get installiert werden und danach ladet man die Installationsdateien von der offiziellen OmniORB Seite [1] runter. Für die Ausführung wurde omniORB-4.1.7 benutzt. Anschließend wechselt man in den Omniorb Directory und führt die folgende Befehle, die auch im Readme erwähnt sind, aus.
+
+\begin{lstlisting}
+mkdir build
+cd build
+../configure
+make
+make install
+\end{lstlisting}
+
+Man kann auch den Installationsort ändern, indem man einen Wert für --prefix angibt.
+
+\begin{lstlisting}
+../configure --prefix=/home/gary/omni_inst
+\end{lstlisting}
+
+\subsection{JacORB}
+
+\begin{lstlisting}
+wget http://www.jacorb.org/releases/3.2/jacorb-3.2-source.zip
+unzip jacorb-3.2-source.zip
+ant all
+\end{lstlisting}
 
 \section{Neue Technologien}
 
 \subsection{IDL File}
 
-Man kann das IDL File zu Stubsourcefiles, von der gewünschten Programmiersprache, generieren. Der folgende Code ist vom IDL File(echo.idl), angepasst an dem dem Interface namens ``Echo''.
-
+Man kann das IDL File zu Stubsourcefiles, von der gewünschten Programmiersprache, generieren. Der folgende Code ist von das am ``Echo'' Inteface angepasste IDL File(echo.idl). Anzumerken ist, dass es einen Modul namens ``schrackye'' existiert. Module sind ähnlich wie Packages von Java oder Namespaces von C++. 
+% TODO: Beschreibung zu #ifndef und Parametern.
 
 \lstset{language=IDL}  
 \begin{lstlisting}[frame=single]
@@ -70,26 +98,27 @@ module schrackye {
 };
 #endif // __ECHO_IDL__         
 \end{lstlisting}
+
 Um den Java Stub Code zu generieren führt man den folgenden Befehl aus:
 
+\lstset{language=bash}
 \begin{lstlisting}
-\$ idlj echo.idl
+idlj echo.idl
 \end{lstlisting}
-
 Oder für C++
-
 \begin{lstlisting}
-\$ omniidl echo.idl
+omniidl echo.idl
 \end{lstlisting}
 
 \subsection{C++ Server}
 
 \subsection{Java Client}
-
-
+\lstset{language=java}
 
 \section{Aufgetretene Probleme}
 
 \section{Testbericht}
+
+\section{Quellen}
 
 \end{document}

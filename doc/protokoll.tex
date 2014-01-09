@@ -4,8 +4,9 @@
 \usepackage{listings}
 \usepackage{color}
 \usepackage{graphicx}
+
 % \usepackage[ngerman]{babel}
-\setlength{\textwidth}{6.5in}
+\setlength{\textwidth}{5.5in}
 
 \title{Corba Übung}
 \author{Nikolaus Schrack, Gary Ye (4BHIT)}
@@ -106,7 +107,7 @@ unzip jacorb-3.2-source.zip
 ant all
 \end{lstlisting}
 
-\section{Neue Technologien}
+\section{Implementierung}
 
 \subsection{IDL File}
 
@@ -198,7 +199,11 @@ x = orb->object_to_string(obj);
 cout << x << endl;
 
 if( !bindObjectToName(orb, obj) )
+<<<<<<< HEAD
 return 1;
+=======
+	return 1;
+>>>>>>> 4f29e3367fde0013765d3f1594338ef7cc59fcc0
 
 myecho->_remove_ref();
 
@@ -297,25 +302,32 @@ Die Methode wird mit Hilfe von einem RPC aufgerufen und das Ergebnis lässt sich
 
 \end{description}
 
+\section{Ausführung}
+
 \section{Aufgetretene Probleme}
 
 \section{Testbericht}
 
 \subsection{Lokales Testing}
 
-Anfangs wurde nur lokal getestet, d.h. Server und Client sind beide auf der selben Maschine gewesen. Er ist wie auf dem Bild zu sehen, erfolgreich abgelaufen. Das linke Terminal ist eine Debian VirtualMachine (mit SSH verbunden), während auf der rechten Seite ein Ubuntu Maschine läuft.
+Anfangs wurde nur lokal getestet, d.h. Server und Client sind beide auf der selben Maschine gewesen. Er ist wie auf dem Bild zu sehen, erfolgreich abgelaufen. Das linke Terminal ist eine Debian VirtualMachine (mit SSH verbunden), während auf der rechten Seite eine Ubuntu Maschine läuft.
 % trim=1cm 2cm 3cm 4cm, clip=true, totalheight=0.5\textheight, angle=90]
 % left bottom right top
-\includegraphics[trim=0cm 5cm 0cm 0cm, clip=true]{test_local}
 
+\begin{center}
+  \includegraphics[width=\linewidth, height=1in]{test_local}
+\end{center}
 \subsection{Testing über das Netzwerk}
 
 Noch ein Bild von dem Testen über das Netzwerk, das erfolgreich abgelaufen ist.
-
-\includegraphics[scale=0.5]{test_network}
+\begin{center}
+  \includegraphics[width=\linewidth, height=1in]{test_network}
+\end{center}
 
 \section{Quellen}
 
-% TODO: print bibliography
+\bibliography{references}{}
+\bibliographystyle{plain}
 
+% \printbibliography
 \end{document}

@@ -4,7 +4,7 @@
 \usepackage{listings}
 \usepackage{color}
 \usepackage{graphicx}
-
+\usepackage{url} % for references, which require url's
 % \usepackage[ngerman]{babel}
 \setlength{\textwidth}{5.5in}
 
@@ -14,7 +14,7 @@
 \begin{document}
 
 \maketitle
-
+\newpage % Borko Style 
 \tableofcontents
 \newpage
 
@@ -58,7 +58,8 @@ Vorschlag: Verwenden Sie für die Implementierungsumgebung eine Linux-Distributi
 
     Dokumentierung des C++ Servers   & 3h & \\ \hline
     Dokumentierung des Java Clients  & & 6h \\ \hline
-    Implementierung des Java Clients & & 4h \\ \hline
+    Implementierung des Java Clients & & 4h \\ \hline \hline
+    Gesamt & 3h & 10h \\ \hline
   \end{tabular}
 \end{center}
 
@@ -67,23 +68,24 @@ Vorschlag: Verwenden Sie für die Implementierungsumgebung eine Linux-Distributi
   \begin{tabular}{| l | l | l |}
     \hline
     Task & Schrack & Ye \\ \hline
-    Dokumentation Allgemein          & 1h & h \\ \hline
-    Dokumentierung des C++ Servers   & 2h & \\ \hline
+    Dokumentation Allgemein          & 1h & 5h \\ \hline
+    Dokumentierung des C++ Servers   & 2h & 0.5h\\ \hline
     Dokumentierung des Java Clients  & & 2h \\ \hline
-    Implementierung des Java Clients & & 2h \\ \hline
+    Implementierung des Java Clients & & 2h \\ \hline \hline
+    Gesamt & 3h & 9.5h \\ \hline
   \end{tabular}
 \end{center}
 
 Weil wenig Erfahrung in dem Gebiet besteht, wurde eine sehr hohe Aufwandszeit geschätzt. Die Zeit wurde hauptsächlich mit dem Lesen der beiliegenden Dokumentationen \cite{omniorbuserguide} verbracht, damit das Implementieren ohne Zweifeln ausgeführt werden konnte.
 
-\section{Designüberlegung}
+\section{Arbeitsaufteilung und Designüberlegung}
 Da beide Teammitglieder Corba-Neulinge sind, wurde aus Erfahrung beschlossen, dass das Lesen der Dokumentationen der beste Start in eine neue Übung bzw. Aufgabe ist. Nachher sind die neue Technologien und der Quellcode, der beiliegenden Beispiele, einigermaßen klarer geworden. Im omniORB-Verzeichnis gibt es ein ``echo-example'', das eine in C++ implementierte Version von Server und Client, die den NamingService verwenden, enthält. Danach wurde ausgemacht, dass Gary Ye die Java Client Version schreibt und seine Vorgänge niederschreibt, und dass Nikolaus Schrack den größten Teil des C++ Source Codes dokumentiert. 
 
 \section{Installation}
 
 \subsection{OmniORB}
 
-Die folgende Packages werden für die Installation von OmniORB benötigt: omniorb omniorb-doc omniorb-idl omniorb-nameserver python2.7-dev. Diese sollten entsprechend mit apt-get installiert werden und danach ladet man die Installationsdateien von der offiziellen OmniORB Seite [1] runter (es wurde für die Übung omniORB-4.1.7 benutzt). Anschließend wechselt man in den Omniorb Directory und führt die folgende Befehle, die auch im Readme erwähnt sind, aus.
+Die folgende Packages werden für die Installation von OmniORB benötigt: omniorb omniorb-doc omniorb-idl omniorb-nameserver python2.7-dev. Diese sollten entsprechend mit apt-get installiert werden und danach ladet man die Installationsdateien von der offiziellen OmniORB Seite \cite{omniorbpage} runter (es wurde für die Übung omniORB-4.1.7 benutzt). Anschließend wechselt man in den Omniorb Directory und führt die folgende Befehle, die auch im Readme erwähnt sind, aus.
 
 \begin{lstlisting}
 mkdir build
@@ -101,11 +103,16 @@ Man kann auch den Installationsort ändern, indem man einen Wert für --prefix a
 
 \subsection{JacORB}
 
+Es wird Apache Ant benötigt, um die Sourcefiles von JacORB zu kompilieren.
+
 \begin{lstlisting}
 wget http://www.jacorb.org/releases/3.2/jacorb-3.2-source.zip
 unzip jacorb-3.2-source.zip
+cd jacorb-3.2
 ant all
 \end{lstlisting}
+
+Wenn eine neuere Version als 3.2 erwünscht ist, dann sollte man sie von der offiziellen Website runterladen!\cite{jacorbpage}
 
 \section{Implementierung}
 
@@ -133,12 +140,13 @@ module schrackye {
 \item[Line 1-2, 8] \hfill \\
 \#ifndef \_\_ECHO\_IDL sind wie man von C kennt Header Guards, die vor Doppeldeklarationen schützen sollen. 
 \item[Line 3] \hfill \\
-Man definiert Module wie Namespaces in C++. Man sollte beachten, dass, dass ein Semikolon ``;'' hinter der geschlossenen geschwungenen Klammer ``\}'' gehört.
+Man definiert Module wie Namespaces in C++. Man sollte beachten, dass ein Semikolon ``;'' hinter der geschlossenen geschwungenen Klammer ``\}'' gehört.
 \item[Line 4] \hfill \\
-Die Deklaration von Interfaces kennt man von Java, auch hier muss man am Ende ein Semikolon schreiben.
+Die Deklaration von Interfaces kennt man von Java; auch hier muss man am Ende ein Semikolon schreiben.
 \item[Line 5] \hfill \\
+Die Methode echoString erwartet einen String und gibt auch ein Objekt vom Typ String zurück. Anzumerken ist, dass hier ein ``in'' in der Parameterliste steht. Die Bedeutungen von ``in'', ``out'' und ``inout'' stehen im folgenden Absatz.
 
-
+The parameters of an operation have a specified direction, which can be in (meaning that the parameter is passed from the client to the server), out (the parameter is passed from the server back to the client) or inout (the parameter is passed in both directions). \footnote{Quelle: http://stackoverflow.com/questions/6264424/corba-idl-in-out-and-inout}
 \end{description}
 Um das IDL File in Java zu kompilieren benutzt man das von JacORB mitgelieferten Compiler namens idlj:
 \lstset{language=bash}
@@ -152,7 +160,7 @@ omniidl echo.idl
 
 \subsection{C++ Server}
 
-Der größte Teil vom Code wurde vom Echo Example entnommen. Es werden die essenziellen Teile Teile des Codes beschrieben. 
+Der größte Teil vom Code wurde vom Echo Example entnommen. Es werden die essenziellen Teile des Codes beschrieben. 
 
 In dem folgenden Codesnippet wird das Echo Interface implementiert.
 
@@ -175,7 +183,7 @@ char* Echo_i::echoString(const char* mesg)
 \begin{description}
 
 \item[Line 10-13] \hfill \\
-Die Implementierung der Methode echoString, wo der gegebene String auf die Corba-Art dupliziert wird.
+Die Implementierung der Methode echoString, wo der gegebene String auf die Corba-Art dupliziert wird und anschließend zurückgegeben wird.
 
 \end{description}
 
@@ -229,19 +237,25 @@ Die Objekt Referenz von myecho wird erlangt und in obj abgespeichert.
 Eine Corba String Variable x wird initialisiert und ausgegeben. 
 
 \item[Line 16-17] \hfill \\
-In der if-Abfrage wird geprüft ob die Bindung vom Naming Server gelingt.
+In der if-Abfrage wird geprüft ob die Bindung vom Naming Server\footnote{Siehe Subsektion NamingService} gelingt.
 
 \item[Line 19] \hfill \\
-Die Referenz von myecho wird gelöscht.
+Die Referenz von myecho wird gelöscht, jedoch exisitiert noch eine Referenz auf das Objekt noch in POA.
 
 \item[Line 21-22] \hfill \\
-Der Portable Object Adapter Mangaer wird aktiviert.
+Der Portable Object Adapter Manager wird aktiviert, da POAs anfangs in einem "holding" State sind (d.h. einkommende Anfragen werden ignoriert).
 
 \item[Line 24] \hfill \\
-Der Orb wird gestartet.
+Der Object Request Broker (ORB) wird gestartet.
 
 \end{description}
 
+\subsubsection{NamingService}
+Der NameService bietet eine komfortabelere Alternative zu IOR Strings an. Man muss nur die richtige Sequenz von \textit{NameComponents} angeben, um das gewünschte Objekt zu bekommen. Der Name eines Objektes kann man mit einem String beschreiben, wobei man NameComponents mit Slashes "/" trennt. Außerdem hat jedes NameComponent eine Form von \textit{"id.kind"}. Beispiel wäre ``test.my\_context/Echo.Object'', das auch im Laufe der Übung für das Echo Objekt verwendet wurde.
+\begin{itemize}
+\item Der NameService von omniORB (C++) heißt ``omniNames''.
+\item Der NameService von JacORB heißt ``ns''.
+\end{itemize}
 \subsection{Java Client}
 
 Der folgende Java Code führt einen Remote Procedure Call (RPC) aus, um eine Nachricht, die man an den Server übergibt, von ihm wieder zurückbekommt (also im Prinzip der Aufruf der Methode echoString).
@@ -281,16 +295,16 @@ public class Client {
 
 \begin{description}
 \item[Line 12] \hfill \\
-Hier initialisiert man den ORB. Man übergibt ih die Programmargumente ``args'' von der Kommandozeile und er bearbeitet alle die den Präfix ``-ORB'' besitzen. Die Kommandoargumente ist eine Alternative zu dem Property File.
+Hier initialisiert man den ORB. Man übergibt ih die Programmargumente ``args'' von der Kommandozeile und er bearbeitet alle, die den Präfix ``-ORB'' besitzen. Die Kommandoargumente ist eine Alternative zu dem Property File.
 
 \item[Line 14-15] \hfill \\
 Hier erhält man den RootContext des angegebenen Namingservices. 
 
 \item[Line 17-19] \hfill \\
-% TODO id, kind?
+Hier gibt man den Path zu dem Echo Objekt, das man anfragt, an. Ein NamingContext löst nämlich nur Arrays von NameComponents auf. 
 
 \item[Line 21] \hfill \\
-Hier wird der Name, den wir angegeben haben aufgelöst. Da die Methode``resolve()'' ein Objekt vom Typ org.omg.CORBA.Object zurückgibt, muss man mit Hilfe von dem entsprechenden Helper, die Rückgabe in den Ursprungstyp zurückformen lassen.
+Hier wird der Name, den wir angegeben haben, aufgelöst. Da die Methode``resolve()'' ein Objekt vom Typ org.omg.CORBA.Object zurückgibt, muss man mit Hilfe von dem entsprechenden Helper, die Rückgabe in den Ursprungstyp zurückformen lassen (``narrow'').
 
 \item[Line 22] \hfill \\
 Die Methode wird mit Hilfe von einem RPC aufgerufen und das Ergebnis lässt sich dann im Output sehen.
@@ -300,13 +314,13 @@ Die Methode wird mit Hilfe von einem RPC aufgerufen und das Ergebnis lässt sich
 \section{Ausführung}
 \subsection{C++ Server}
 \subsubsection{Naming Server}
-Falls der NamingServer namens omniNames nicht gestartet ist, so muss man ihn automatisch ausführen.
+Falls der NamingServer namens omniNames nicht gestartet ist, so muss man ihn manuell starten.
 \begin{lstlisting}
 omniNames -start
 \end{lstlisting}
 
 \subsubsection{Makefile Anpassung}
-Zuerst muss man ein wenig das Makefile am eigenen System anpassen. Man muss nur den Installationsort von OmniORB angeben, den man bei --prefix angegeben hat.
+Zuerst muss man ein wenig das Makefile am eigenen System anpassen. Man muss nur den Installationsort von OmniORB, den man bei --prefix geschrieben hat, angeben.
 \begin{lstlisting}
 OMNI_HOME     = /usr/local
 \end{lstlisting}
@@ -318,17 +332,19 @@ Schlussendlich den Server starten mit:
 
 \subsection{Java Client}
 \subsubsection{Corbaloc}
-Mit dem Corbaloc definiert man die Addresse, Portnummer und den Servicename an. In diesem Fall wird beim Aufrufen des Java Clients die Informationen vom NamingService übergeben.
+Mit dem Corbaloc\footnote{(für mehr Infos\cite{book1})} definiert man die Addresse, Portnummer und den Servicename an. In diesem Fall wird beim Aufrufen des Java Clients die Informationen vom NameService übergeben.
 
-\footnote{(mehr Infos\cite{book1})}
-Wenn der NameService am Server mit der IP Addresse 192.168.163.129 und der Portnummer 2809 ist, so muss ist der entsprechende Corbaloc folgender:
+Wenn der NameService am Server mit der IP Addresse 192.168.163.129 und der Portnummer 2809 ist, so ist der entsprechende Corbaloc folgender:
 \begin{lstlisting}
 corbaloc::192.168.163.129:2809/NameService
 \end{lstlisting}
 
 \subsection{Ausführung}
+Den folgenden Befehl muss man ausführen, um einen Server (mit der IP Addresse 192.168.163.129 Portnummer 2809) anzusprechen. Danach sollte man einen entsprechende Ausgabe bekommen (unter der Vorraussetzung, dass der Server zuerst gestartet wurde und auch von außen ansprechbar ist).
 
-
+\begin{lstlisting}
+java schrackye.Client -ORBInitRef NameService=corbaloc::192.168.163.129:2809/NameService
+\end{lstlisting}
 
 \section{Aufgetretene Probleme}
 Die meisten Probleme sind nur bei der Erstellung der Makefiles geschehen.
@@ -344,37 +360,33 @@ Daher muss man dieses Argument in zwei Ant-Args unterteilen.
 <arg value=''2809'' />
 \end{lstlisting}
 
-\section{Testbericht}
 
+\section{Testbericht}
 \subsection{Lokales Testing}
 
 Anfangs wurde nur lokal getestet, d.h. Server und Client sind beide auf der selben Maschine gewesen. Er ist wie auf dem Bild zu sehen, erfolgreich abgelaufen. Das linke Terminal ist eine Debian VirtualMachine (mit SSH verbunden), während auf der rechten Seite eine Ubuntu Maschine läuft.
 
-Server
 \begin{center}
-  \includegraphics[width=0.7\textwidth, height=0.8in]{test_local_server}
-\end{center}
-
-Client
-\begin{center}
-  \includegraphics[width=0.7\textwidth, height=0.8in]{test_local_client}
+  \includegraphics[width=\textwidth, height=1.5in]{test_local}
 \end{center}
 
 \subsection{Testing über das Netzwerk}
 Noch ein Bild von dem Testen über das Netzwerk, das erfolgreich abgelaufen ist.
 
-Server
 \begin{center}
-  \includegraphics[width=0.7\textwidth, height=0.8in]{test_network_server}
+  \includegraphics[width=\textwidth, height=1.5in]{test_network}
 \end{center}
 
-Client
-\begin{center}
-  \includegraphics[width=0.7\textwidth, height=0.8in]{test_network_client}
-\end{center}
+\section{Siege und Niederlagen}
+\subsection{Siege}
+\begin{itemize}
+\item Der Java Client wurde erfolgreich an dem Echo Example angepasst.
+\item Es wurde zum ersten Mal mit \LaTeX  Erfahrung gemacht (erwähnenswert, wenn für die Dokumentation mehr als die Hälfte der Zeit angewendet wurde).
+\end{itemize}
+\subsection{Niederlagen}
+Subjektiv gesehen, gibt es keine Niederlagen.
 
 \bibliography{references}{}
 \bibliographystyle{plain}
 
-% \printbibliography
 \end{document}

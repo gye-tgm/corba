@@ -4,6 +4,7 @@
 \usepackage{listings}
 \usepackage{color}
 % \usepackage[ngerman]{babel}
+\setlength{\textwidth}{6.5in}
 
 \title{Corba Übung}
 \author{Nikolaus Schrack, Gary Ye (4BHIT)}
@@ -20,6 +21,7 @@
         commentstyle=\itshape,
         numbers=left,                   % where to put the line-numbers
         stepnumber=1,
+        breaklines=true,					% line wrapping on
         numberstyle=\tiny,
         showstringspaces=false,
         abovecaptionskip=0pt,
@@ -79,7 +81,7 @@ Da beide Teammitglieder Corba-Neulinge sind, wurde aus Erfahrung beschlossen, da
 
 \subsection{OmniORB}
 
-Die folgende Packages werden für die Installation von OmniORB benötigt: omniorb omniorb-doc omniorb-idl omniorb-nameserver python2.7-dev. Diese sollten entsprechend mit apt-get installiert werden und danach ladet man die Installationsdateien von der offiziellen OmniORB Seite [1] runter. Für die Ausführung wurde omniORB-4.1.7 benutzt. Anschließend wechselt man in den Omniorb Directory und führt die folgende Befehle, die auch im Readme erwähnt sind, aus.
+Die folgende Packages werden für die Installation von OmniORB benötigt: omniorb omniorb-doc omniorb-idl omniorb-nameserver python2.7-dev. Diese sollten entsprechend mit apt-get installiert werden und danach ladet man die Installationsdateien von der offiziellen OmniORB Seite [1] runter (es wurde für die Übung omniORB-4.1.7 benutzt). Anschließend wechselt man in den Omniorb Directory und führt die folgende Befehle, die auch im Readme erwähnt sind, aus.
 
 \begin{lstlisting}
 mkdir build
@@ -107,15 +109,15 @@ ant all
 
 \subsection{IDL File}
 
-IDL (Interface Definition Language) ist eine Sprache zum Beschreiben der Interfaces in einem Softwareprogramm. Das Beschreiben geschieht Programmiersprache-unabhängig, damit Softwarekomponenten, die in verschiedenen Programmiersprachen geschrieben wurden (wie z.B. C++, Java, Python), miteinander kommunizieren können.
+IDL (Interface Definition Language) ist eine deskriptive Sprache zum Beschreiben der Interfaces in einem Softwareprogramm. Das Beschreiben geschieht Programmiersprache-unabhängig, damit Softwarekomponenten, die in verschiedenen Programmiersprachen geschrieben wurden (wie z.B. C++, Java, Python), miteinander kommunizieren können. Man kann das IDL File mit Hilfe eines IDL Compilers zu einem sprachspezfischen Quellcode kompillieren (z.B. Stubs, Skeletons, etc.). 
 
-Man kann das IDL File zu Stubsourcefiles, von der gewünschten Programmiersprache, generieren. Der folgende Code ist von das am ``Echo'' Inteface angepasste IDL File(echo.idl). Anzumerken ist, dass es einen Modul namens ``schrackye'' existiert. Module sind ähnlich wie Packages von Java oder Namespaces von C++. 
+Der folgende Code ist von das am ``Echo'' Inteface angepasste IDL File(echo.idl). Anzumerken ist, dass es einen Modul namens ``schrackye'' existiert. Module sind ähnlich wie Packages von Java oder Namespaces von C++. 
 
 % TODO: Beschreibung zu #ifndef und Parametern.
 
 \lstset{language=IDL}  
 
-\begin{lstlisting}[frame=single]
+\begin{lstlisting}
 #ifndef __ECHO_IDL__
 #define __ECHO_IDL__
 module schrackye {
@@ -127,9 +129,17 @@ module schrackye {
 
 \end{lstlisting}
 
-
+\begin{description}
+\item[Line 1-2, 8] \hfill \\
 \#ifndef \_\_ECHO\_IDL sind wie man von C kennt Header Guards, die vor Doppeldeklarationen schützen sollen. 
+\item[Line 3] \hfill \\
+Man definiert Module wie Namespaces in C++. Man sollte beachten, dass, dass ein Semikolon ``;'' hinter der geschlossenen geschwungenen Klammer ``\}'' gehört.
+\item[Line 4] \hfill \\
+Die Deklaration von Interfaces kennt man von Java, auch hier muss man am Ende ein Semikolon schreiben.
+\item[Line 5] \hfill \\
 
+
+\end{description}
 Um den Java Stub Code zu generieren führt man den folgenden Befehl aus:
 
 \lstset{language=bash}

@@ -140,13 +140,12 @@ Die Deklaration von Interfaces kennt man von Java, auch hier muss man am Ende ei
 
 
 \end{description}
-Um den Java Stub Code zu generieren führt man den folgenden Befehl aus:
-
+Um das IDL File in Java zu kompilieren benutzt man das von JacORB mitgelieferten Compiler namens idlj:
 \lstset{language=bash}
 \begin{lstlisting}
 idlj echo.idl
 \end{lstlisting}
-Oder für C++
+Oder für C++ das von omniORB mitgeliferten Compiler omniidl:
 \begin{lstlisting}
 omniidl echo.idl
 \end{lstlisting}
@@ -180,7 +179,7 @@ Die Implementierung der Methode echoString, wo der gegebene String auf die Corba
 
 \end{description}
 
-Zunächst wird die main Methde implementiert.
+Der folgende Code ist ein Teil von der Main Funktion.
 
 \begin{lstlisting}
 CORBA::ORB_var orb = CORBA::ORB_init(argc, argv);
@@ -199,8 +198,7 @@ x = orb->object_to_string(obj);
 cout << x << endl;
 
 if( !bindObjectToName(orb, obj) )
-
-	return 1;
+  return 1;
 
 myecho->_remove_ref();
 
@@ -216,10 +214,10 @@ orb->run();
 Hier wird der ORB mit den Kommandozeilenargumenten initialisiert.
 
 \item[Line 3-4] \hfill \\
-Der Server wird für die Client sichtbar gemacht. Dies wird mit der Registrierung bei der Portable Server Adapter, in unserem fall das \textit{Root POA} durchgeführt.
+Der Server wird für die Client sichtbar gemacht. Dies wird mit der Registrierung bei dem Portable Server Adapter (in unserem Fall der \textit{Root POA}) durchgeführt.
 
 \item[Line 6] \hfill \\
-Eine Instanz von Echo wird erstellt.
+Eine neue Instanz von Echo wird erstellt.
 
 \item[Line 8] \hfill \\
 Das Objekt wird vom POA aktiviert und gibt eine Objekt-Id zurück.
@@ -300,21 +298,47 @@ Die Methode wird mit Hilfe von einem RPC aufgerufen und das Ergebnis lässt sich
 \end{description}
 
 \section{Ausführung}
+\subsection{C++ Server}
+\subsubsection{Naming Server}
+Falls der NamingServer namens omniNames nicht gestartet ist, so muss man ihn automatisch ausführen.
+\begin{lstlisting}
+omniNames -start
+\end{lstlisting}
+
+\subsubsection{Makefile Anpassung}
+Zuerst muss man ein wenig das Makefile am eigenen System anpassen. Man muss nur den Installationsort von OmniORB angeben, den man bei --prefix angegeben hat.
+\begin{lstlisting}
+OMNI_HOME     = /usr/local
+\end{lstlisting}
+\subsubsection{Server Starten}
+Schlussendlich den Server starten mit:
+\begin{lstlisting}
+./server
+\end{lstlisting}
+
+\subsection{Java Client}
+\subsubsection{Corbaloc}
+Mit dem Corbaloc definiert man die Addresse, Portnummer und den Servicename an. In diesem Fall wird beim Aufrufen des Java Clients die Informationen vom NamingService übergeben.
+
+\footnote{(mehr Infos\cite{book1})}
+Wenn der NameService am Server mit der IP Addresse 192.168.163.129 und der Portnummer 2809 ist, so muss ist der entsprechende Corbaloc folgender:
+\begin{lstlisting}
+corbaloc::192.168.163.129:2809/NameService
+\end{lstlisting}
+
+\subsection{Ausführung}
 
 
-\subsection{Corbaloc}
-\cite{book1}
 
 \section{Aufgetretene Probleme}
 Die meisten Probleme sind nur bei der Erstellung der Makefiles geschehen.
-\subsection{Ant File}
-
-Wenn man die folgende Zeile im Ant Buildfile schreibt, so wird es nur einen Argument geben (anstatt erwartete zwei).
+\subsection{Ant File - Args}
+Wenn man die folgende Zeile im Ant Buildfile schreibt, so wird dem Programm nur \textit{ein} Argument geben (anstatt erwartete zwei).
 \begin{lstlisting}
 <arg value=''-ORBInitialPort 2809'' />
 \end{lstlisting}
 
-Daher muss man diesen Argument String in zwei <arg>'s unterteilen.
+Daher muss man dieses Argument in zwei Ant-Args unterteilen.
 \begin{lstlisting}
 <arg value=''-ORBInitialPort'' />
 <arg value=''2809'' />
@@ -325,8 +349,6 @@ Daher muss man diesen Argument String in zwei <arg>'s unterteilen.
 \subsection{Lokales Testing}
 
 Anfangs wurde nur lokal getestet, d.h. Server und Client sind beide auf der selben Maschine gewesen. Er ist wie auf dem Bild zu sehen, erfolgreich abgelaufen. Das linke Terminal ist eine Debian VirtualMachine (mit SSH verbunden), während auf der rechten Seite eine Ubuntu Maschine läuft.
-% trim=1cm 2cm 3cm 4cm, clip=true, totalheight=0.5\textheight, angle=90]
-% left bottom right top
 
 \begin{center}
   \includegraphics[width=\linewidth, height=1in]{test_local}

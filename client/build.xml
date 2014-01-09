@@ -2,6 +2,7 @@
   <property name="src.dir"        value="src"/>
   <property name="build.dir"      value="build"/>
   <property name="classes.dir"    value="${build.dir}/classes"/>
+  <property name="doc.dir"   	  value="doc"/>
 
   <property name="idl.dir"        value="../common" />
   <property name="gen.dir"        value="${build.dir}/generated" />
@@ -63,21 +64,29 @@
     </description>
     <java fork="true" classname="schrackye.Client" >
       
-	<!-- Only for local usage
-	  <arg value="-ORBInitialPort" />
-	  <arg value="2809" />
-	-->
+      <!-- Only for local usage
+	   <arg value="-ORBInitialPort" />
+	   <arg value="2809" />
+      -->
 
-	<!-- Should be equivalent to an example call like this 
-	     java schrackye.Client -ORBInitRef NameService=corbaloc::192.168.163.129:2809/NameService
-	-->
-	<arg value="-ORBInitRef" />
-	<arg value="NameService=corbaloc::${host}:2809/NameService"/>
+      <!-- Should be equivalent to an example call like this 
+	   java schrackye.Client -ORBInitRef NameService=corbaloc::192.168.163.129:2809/NameService
+      -->
+      <arg value="-ORBInitRef" />
+      <arg value="NameService=corbaloc::${host}:2809/NameService"/>
       <classpath refid="project.classpath" />
     </java>
   </target>
 
   <target name="clean">
     <delete dir="${build.dir}"/>
+  </target>
+
+  <target name="create-doc">
+    <mkdir dir="${doc.dir}" />
+    <javadoc sourcepath="src" destdir="${doc.dir}" />
+  </target>
+  <target name="clean-doc">
+    <delete dir="${doc.dir}" />
   </target>
 </project>

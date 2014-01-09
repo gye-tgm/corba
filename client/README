@@ -1,0 +1,5 @@
+To run the client simply execute the following commands:
+
+ant run-client -Dhost=server_ip
+
+Substitute server_ip with the corresponding ip address.

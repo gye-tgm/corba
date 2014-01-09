@@ -173,6 +173,10 @@ char* Echo_i::echoString(const char* mesg)
 }
 \end{lstlisting}
 
+
+
+Zunächst wird die main Methde geschrieben
+
 \begin{lstlisting}
   CORBA::ORB_var orb = CORBA::ORB_init(argc, argv);
 
@@ -205,6 +209,13 @@ char* Echo_i::echoString(const char* mesg)
 \item[Line 1] \hfill \\
 Hier wird der ORB mit den Kommandozeilenargumenten initialisiert.
 
+\item[Line 3-4] \hfill \\
+Der Server wird für die Client sichtbar gemacht. Dies wird mit der Registrierung bei der POV, in unserem fall das \textit{Root POA} durchgeführt.
+
+\item[Line 6] \hfill \\
+Eine Instanz von Echo wird erstellt.
+
+\item[Line 9] \hfill \\
 \end{description}
 
 \subsection{Java Client}

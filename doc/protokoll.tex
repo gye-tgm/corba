@@ -153,6 +153,60 @@ omniidl echo.idl
 
 \subsection{C++ Server}
 
+Der größte Teil vom Code wurde vom Echo Example entnommen. Es werden die essenziellen Teile Teile des Codes beschrieben. 
+
+In dem folgenden Codesnippet wird das Echo Interface implementiert.
+
+\begin{lstlisting}
+class Echo_i : public POA_schrackye::Echo
+{
+public:
+  inline Echo_i() {}
+  virtual ~Echo_i() {}
+  virtual char* echoString(const char* mesg);
+};
+
+
+char* Echo_i::echoString(const char* mesg)
+{
+  return CORBA::string_dup(mesg);
+}
+\end{lstlisting}
+
+\begin{lstlisting}
+  CORBA::ORB_var orb = CORBA::ORB_init(argc, argv);
+
+  CORBA::Object_var obj = orb->resolve_initial_references("RootPOA");
+  PortableServer::POA_var poa = PortableServer::POA::_narrow(obj);
+
+  Echo_i* myecho = new Echo_i();
+
+  PortableServer::ObjectId_var myechoid = poa->activate_object(myecho);
+
+  obj = myecho->_this();
+
+  CORBA::String_var x;
+  x = orb->object_to_string(obj);
+  cout << x << endl;
+
+  if( !bindObjectToName(orb, obj) )
+  return 1;
+
+  myecho->_remove_ref();
+
+  PortableServer::POAManager_var pman = poa->the_POAManager();
+  pman->activate();
+
+  orb->run();
+\end{lstlisting}
+
+\begin{description}
+
+\item[Line 1] \hfill \\
+Hier wird der ORB mit den Kommandozeilenargumenten initialisiert.
+
+\end{description}
+
 \subsection{Java Client}
 
 Der folgende Java Code führt einen Remote Procedure Call (RPC) aus, um eine Nachricht, die man an den Server übergibt, von ihm wieder zurückbekommt (also im Prinzip der Aufruf der Methode echoString).

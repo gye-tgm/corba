@@ -1,0 +1,7 @@
+client/build
+*.pdf
+*.o
+server/echo.hh
+server/echoSK.cc
+server/server
+

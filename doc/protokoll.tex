@@ -3,6 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{listings}
 \usepackage{color}
+\usepackage{graphicx}
 % \usepackage[ngerman]{babel}
 \setlength{\textwidth}{6.5in}
 
@@ -112,8 +113,6 @@ ant all
 IDL (Interface Definition Language) ist eine deskriptive Sprache zum Beschreiben der Interfaces in einem Softwareprogramm. Das Beschreiben geschieht Programmiersprache-unabhängig, damit Softwarekomponenten, die in verschiedenen Programmiersprachen geschrieben wurden (wie z.B. C++, Java, Python), miteinander kommunizieren können. Man kann das IDL File mit Hilfe eines IDL Compilers zu einem sprachspezfischen Quellcode kompillieren (z.B. Stubs, Skeletons, etc.). 
 
 Der folgende Code ist von das am ``Echo'' Inteface angepasste IDL File(echo.idl). Anzumerken ist, dass es einen Modul namens ``schrackye'' existiert. Module sind ähnlich wie Packages von Java oder Namespaces von C++. 
-
-% TODO: Beschreibung zu #ifndef und Parametern.
 
 \lstset{language=IDL}  
 
@@ -269,14 +268,15 @@ Die Methode wird mit Hilfe von einem RPC aufgerufen und das Ergebnis lässt sich
 \subsection{Lokales Testing}
 
 Anfangs wurde nur lokal getestet, d.h. Server und Client sind beide auf der selben Maschine gewesen. Er ist wie auf dem Bild zu sehen, erfolgreich abgelaufen. Das linke Terminal ist eine Debian VirtualMachine (mit SSH verbunden), während auf der rechten Seite ein Ubuntu Maschine läuft.
-
-% TODO Include test_local.png
+% trim=1cm 2cm 3cm 4cm, clip=true, totalheight=0.5\textheight, angle=90]
+% left bottom right top
+\includegraphics[trim=0cm 5cm 0cm 0cm, clip=true]{test_local}
 
 \subsection{Testing über das Netzwerk}
 
 Noch ein Bild von dem Testen über das Netzwerk, das erfolgreich abgelaufen ist.
 
-% TODO Include test_network.png
+\includegraphics[scale=0.5]{test_network}
 
 \section{Quellen}
 

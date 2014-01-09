@@ -56,7 +56,7 @@ Vorschlag: Verwenden Sie für die Implementierungsumgebung eine Linux-Distributi
     \hline
     Task & Schrack & Ye \\ \hline
 
-    Dokumentierung des C++ Servers   & 0h & \\ \hline
+    Dokumentierung des C++ Servers   & 3h & \\ \hline
     Dokumentierung des Java Clients  & & 6h \\ \hline
     Implementierung des Java Clients & & 4h \\ \hline
   \end{tabular}
@@ -67,8 +67,8 @@ Vorschlag: Verwenden Sie für die Implementierungsumgebung eine Linux-Distributi
   \begin{tabular}{| l | l | l |}
     \hline
     Task & Schrack & Ye \\ \hline
-    Dokumentation Allgemein          & 0h & h \\ \hline
-    Dokumentierung des C++ Servers   & 0h & \\ \hline
+    Dokumentation Allgemein          & 1h & h \\ \hline
+    Dokumentierung des C++ Servers   & 2h & \\ \hline
     Dokumentierung des Java Clients  & & 2h \\ \hline
     Implementierung des Java Clients & & 2h \\ \hline
   \end{tabular}
@@ -350,14 +350,27 @@ Daher muss man dieses Argument in zwei Ant-Args unterteilen.
 
 Anfangs wurde nur lokal getestet, d.h. Server und Client sind beide auf der selben Maschine gewesen. Er ist wie auf dem Bild zu sehen, erfolgreich abgelaufen. Das linke Terminal ist eine Debian VirtualMachine (mit SSH verbunden), während auf der rechten Seite eine Ubuntu Maschine läuft.
 
+Server
 \begin{center}
-  \includegraphics[width=\linewidth, height=1in]{test_local}
+  \includegraphics[width=0.7\textwidth, height=0.8in]{test_local_server}
 \end{center}
-\subsection{Testing über das Netzwerk}
 
-Noch ein Bild von dem Testen über das Netzwerk, das erfolgreich abgelaufen ist.
+Client
 \begin{center}
-  \includegraphics[width=\linewidth, height=1in]{test_network}
+  \includegraphics[width=0.7\textwidth, height=0.8in]{test_local_client}
+\end{center}
+
+\subsection{Testing über das Netzwerk}
+Noch ein Bild von dem Testen über das Netzwerk, das erfolgreich abgelaufen ist.
+
+Server
+\begin{center}
+  \includegraphics[width=0.7\textwidth, height=0.8in]{test_network_server}
+\end{center}
+
+Client
+\begin{center}
+  \includegraphics[width=0.7\textwidth, height=0.8in]{test_network_client}
 \end{center}
 
 \bibliography{references}{}

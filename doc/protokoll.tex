@@ -173,9 +173,14 @@ char* Echo_i::echoString(const char* mesg)
 }
 \end{lstlisting}
 
+\begin{description}
 
+\item[Line 10-13] \hfill \\
+Die Implementierung der Methode echoString, wo der gegebene String auf die Corba-Art dupliziert wird.
 
-Zunächst wird die main Methde geschrieben
+\end{description}
+
+Zunächst wird die main Methde implementiert.
 
 \begin{lstlisting}
 CORBA::ORB_var orb = CORBA::ORB_init(argc, argv);
@@ -194,6 +199,7 @@ x = orb->object_to_string(obj);
 cout << x << endl;
 
 if( !bindObjectToName(orb, obj) )
+
 	return 1;
 
 myecho->_remove_ref();
@@ -210,12 +216,32 @@ orb->run();
 Hier wird der ORB mit den Kommandozeilenargumenten initialisiert.
 
 \item[Line 3-4] \hfill \\
-Der Server wird für die Client sichtbar gemacht. Dies wird mit der Registrierung bei der POV, in unserem fall das \textit{Root POA} durchgeführt.
+Der Server wird für die Client sichtbar gemacht. Dies wird mit der Registrierung bei der Portable Server Adapter, in unserem fall das \textit{Root POA} durchgeführt.
 
 \item[Line 6] \hfill \\
 Eine Instanz von Echo wird erstellt.
 
-\item[Line 9] \hfill \\
+\item[Line 8] \hfill \\
+Das Objekt wird vom POA aktiviert und gibt eine Objekt-Id zurück.
+
+\item[Line 10] \hfill \\
+Die Objekt Referenz von myecho wird erlangt und in obj abgespeichert.
+
+\item[Line 12-14] \hfill \\
+Eine Corba String Variable x wird initialisiert und ausgegeben. 
+
+\item[Line 16-17] \hfill \\
+In der if-Abfrage wird geprüft ob die Bindung vom Naming Server gelingt.
+
+\item[Line 19] \hfill \\
+Die Referenz von myecho wird gelöscht.
+
+\item[Line 21-22] \hfill \\
+Der Portable Object Adapter Mangaer wird aktiviert.
+
+\item[Line 24] \hfill \\
+Der Orb wird gestartet.
+
 \end{description}
 
 \subsection{Java Client}

@@ -74,7 +74,7 @@ Vorschlag: Verwenden Sie für die Implementierungsumgebung eine Linux-Distributi
   \end{tabular}
 \end{center}
 
-Weil wenig Erfahrung in dem Gebiet besteht, wurde eine sehr hohe Aufwandszeit geschätzt. Die Zeit wurde hauptsächlich mit dem Lesen der beiliegenden Dokumentationen verbracht, damit das Implementieren ohne Zweifeln ausgeführt werden konnte.
+Weil wenig Erfahrung in dem Gebiet besteht, wurde eine sehr hohe Aufwandszeit geschätzt. Die Zeit wurde hauptsächlich mit dem Lesen der beiliegenden Dokumentationen \cite{omniorbuserguide} verbracht, damit das Implementieren ohne Zweifeln ausgeführt werden konnte.
 
 \section{Designüberlegung}
 Da beide Teammitglieder Corba-Neulinge sind, wurde aus Erfahrung beschlossen, dass das Lesen der Dokumentationen der beste Start in eine neue Übung bzw. Aufgabe ist. Nachher sind die neue Technologien und der Quellcode, der beiliegenden Beispiele, einigermaßen klarer geworden. Im omniORB-Verzeichnis gibt es ein ``echo-example'', das eine in C++ implementierte Version von Server und Client, die den NamingService verwenden, enthält. Danach wurde ausgemacht, dass Gary Ye die Java Client Version schreibt und seine Vorgänge niederschreibt, und dass Nikolaus Schrack den größten Teil des C++ Source Codes dokumentiert. 
@@ -301,7 +301,24 @@ Die Methode wird mit Hilfe von einem RPC aufgerufen und das Ergebnis lässt sich
 
 \section{Ausführung}
 
+
+\subsection{Corbaloc}
+\cite{book1}
+
 \section{Aufgetretene Probleme}
+Die meisten Probleme sind nur bei der Erstellung der Makefiles geschehen.
+\subsection{Ant File}
+
+Wenn man die folgende Zeile im Ant Buildfile schreibt, so wird es nur einen Argument geben (anstatt erwartete zwei).
+\begin{lstlisting}
+<arg value=''-ORBInitialPort 2809'' />
+\end{lstlisting}
+
+Daher muss man diesen Argument String in zwei <arg>'s unterteilen.
+\begin{lstlisting}
+<arg value=''-ORBInitialPort'' />
+<arg value=''2809'' />
+\end{lstlisting}
 
 \section{Testbericht}
 
@@ -333,8 +350,6 @@ Client
 \begin{center}
   \includegraphics[width=0.7\textwidth, height=0.8in]{test_network_client}
 \end{center}
-
-\section{Quellen}
 
 \bibliography{references}{}
 \bibliographystyle{plain}
